@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 # FIXME: payload incorrect
 payload = {
     "qtype": 3,
-    "commodity_id": "TXOa",
+    "commodity_id": "TXO",
     # commodity_id2
     "market_code": 1,
     # goday
