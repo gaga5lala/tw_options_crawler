@@ -10,25 +10,18 @@ from bs4 import BeautifulSoup
 
 # TODO: flexible change datetime
 
-# FIXME: payload incorrect
 payload = {
+    # TODO: 確認參數細項
     "qtype": 3,
-    "commodity_id": "TXO",
-    # commodity_id2
+    # 交易時段：1.一般交易時段 2.盤後交易時段
     "market_code": 1,
-    # goday
+    # TODO: 確認參數細項
     "dateaddcnt": -1,
-    "DATA_DATE_Y": 2017,
-    "DATA_DATE_M": 9,
-    "DATA_DATE_D": 13,
     "syear": 2017,
     "smonth": 9,
-    "sday": 13,
-    "datestart": "2017/9/13",
-    "MarketCode": 1,
+    "sday": 12,
+    # 契約
     "commodity_idt": "TXO",
-    # commodity_id2t
-    # commodity_id2t2
     }
 
 req = requests.post(url, data=payload)
