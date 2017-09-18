@@ -43,7 +43,7 @@ optionTable = tables[2]
 rows = optionTable.find_all('tr')
 
 # skip first line and last line
-for row in rows[1:-1]:
+for row in rows[1:-2]:
     cols = row.find_all('td')
     print(cols[1].text + ", " + cols[2].text + ", " + cols[3].text + ", " + cols[7].text + ", " + cols[12].text)
 
