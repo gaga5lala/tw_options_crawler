@@ -33,13 +33,9 @@ optionTable = tables[2]
 
 rows = optionTable.find_all('tr')
 
-idx = 0
-# skip first line
-for row in rows[1:]:
-    if idx > 10:
-       break
+# skip first line and last line
+for row in rows[1:-1]:
     cols = row.find_all('td')
     print(cols[1].text + ", " + cols[2].text + ", " + cols[3].text + ", " + cols[7].text + ", " + cols[12].text)
-    idx += 1
 
 # TODO: save data
