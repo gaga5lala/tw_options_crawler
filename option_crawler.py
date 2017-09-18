@@ -15,6 +15,10 @@ import datetime
 
 import pandas as pd
 
+import os
+from os import mkdir
+from os.path import isdir
+
 parser = argparse.ArgumentParser(description='Crawl options data at assigned date')
 # TODO: validate date
 parser.add_argument('--date', type=int, nargs=1, required=True,
@@ -53,5 +57,12 @@ df = pd.read_html(str(optionTable),header=0)[0].iloc[:-2]
 # select specific columns
 df = (df[df.columns[[1, 2, 3, 7, 12]]])
 
-file_name = '/Users/gaga/gitlab/tw_options_crawler/test.csv'
+# save data
+# refactor: data path
+script_path = os.path.dirname(os.path.abspath(__file__))
+data_dir_path = script_path + "/data"
+if not isdir(data_dir_path):
+    mkdir(data_dir_path)
+
+file_name = data_dir_path + '/' + f'{args_date.strftime("%Y%m%d")}.csv'
 df.to_csv(file_name, index=False, sep=',', encoding='utf-8')
