@@ -8,7 +8,16 @@ print("crawler for Taiwan options")
 import requests
 from bs4 import BeautifulSoup
 
-# TODO: flexible change datetime
+import argparse
+import datetime
+
+parser = argparse.ArgumentParser(description='Crawl options data at assigned date')
+# TODO: validate date
+parser.add_argument('--date', type=int, nargs=1, required=True,
+    help='assigned date (format: YYYYMMDD)')
+
+args = parser.parse_args()
+args_date = datetime.datetime.strptime(str(args.date[0]), "%Y%m%d")
 
 payload = {
     # TODO: 確認參數細項
@@ -17,9 +26,9 @@ payload = {
     "market_code": 1,
     # TODO: 確認參數細項
     "dateaddcnt": -1,
-    "syear": 2017,
-    "smonth": 9,
-    "sday": 12,
+    "syear": args_date.year,
+    "smonth": args_date.month,
+    "sday": args_date.day,
     # 契約
     "commodity_idt": "TXO",
     }
