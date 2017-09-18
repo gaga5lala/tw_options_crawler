@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 import argparse
 import datetime
 
+import pandas as pd
+
 parser = argparse.ArgumentParser(description='Crawl options data at assigned date')
 # TODO: validate date
 parser.add_argument('--date', type=int, nargs=1, required=True,
@@ -36,17 +38,20 @@ payload = {
     }
 
 req = requests.post(url, data=payload)
+req.encoding="utf-8"
+
+
 soup = BeautifulSoup(req.text, 'html.parser')
 
 # soup.find(class="table_c")
 tables = soup.find_all("table")
 optionTable = tables[2]
 
-rows = optionTable.find_all('tr')
+# skip last 2 line
+df = pd.read_html(str(optionTable),header=0)[0].iloc[:-2]
 
-# skip first line and last line
-for row in rows[1:-2]:
-    cols = row.find_all('td')
-    print(cols[1].text + ", " + cols[2].text + ", " + cols[3].text + ", " + cols[7].text + ", " + cols[12].text)
+# select specific columns
+df = (df[df.columns[[1, 2, 3, 7, 12]]])
 
-# TODO: save data
+file_name = '/Users/gaga/gitlab/tw_options_crawler/test.csv'
+df.to_csv(file_name, index=False, sep=',', encoding='utf-8')
