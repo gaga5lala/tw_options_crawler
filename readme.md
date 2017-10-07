@@ -5,7 +5,7 @@
 ## Setup
 
 ```
-$ git clone https://gitlab.com/Backtest_Development/tw_options_crawler.git
+$ git clone https://github.com/gaga5lala/tw_options_crawler.git
 
 $ cd tw_options_crawler
 
