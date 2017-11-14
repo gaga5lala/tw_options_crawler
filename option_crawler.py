@@ -22,7 +22,7 @@ class OptionCrawler():
         self.url = url
         self.data_dir = data_dir
         self.data = None
-    
+
     # convert string to datetime object
     def _parse_date(self, date):
         return datetime.datetime.strptime(date, "%Y%m%d")
@@ -33,17 +33,18 @@ class OptionCrawler():
     def _get_data(self):
         payload = {
             # TODO: 確認參數細項
-            "qtype": 3,
+            "qtype": 2,
             # 交易時段：1.一般交易時段 2.盤後交易時段
-            "market_code": 1,
+            "market_code": 0,
             # TODO: 確認參數細項
-            "dateaddcnt": -1,
+            # "dateaddcnt": -1,
             "syear": self.date.year,
             "smonth": self.date.month,
             "sday": self.date.day,
             # 契約
             "commodity_idt": "TXO",
         }
+        print(payload)
 
         req = requests.post(self.url, data=payload)
         req.encoding="utf-8"
@@ -58,11 +59,11 @@ class OptionCrawler():
         df = pd.read_html(str(optionTable),header=0)[0].iloc[:-2]
 
         # select specific columns
-        df = (df[df.columns[[1, 2, 3, 7, 12]]])
+        df = (df[df.columns[[1, 2, 3, 7, 8, 12]]])
         self.data = df
 
     def _get_dir_path(self):
-        script_path = os.path.dirname(os.path.abspath(__file__))        
+        script_path = os.path.dirname(os.path.abspath(__file__))
         data_dir_path = script_path + "/" + self.data_dir
         if not isdir(data_dir_path):
             mkdir(data_dir_path)
@@ -70,7 +71,8 @@ class OptionCrawler():
 
     def save(self):
         dir_path = self._get_dir_path()
-        file_name = dir_path + '/' + f'{self.date.strftime("%Y%m%d")}.csv'
+        # file_name = dir_path + '/' + f'{self.date.strftime("%Y%m%d")}.csv'
+        file_name = dir_path + '/' + '{dt}.csv'.format(dt=self.date.strftime('%Y%m%d'))
         self.data.to_csv(file_name, index=False, sep=',', encoding='utf-8')
 
 def main():
